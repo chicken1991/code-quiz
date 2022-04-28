@@ -29,8 +29,10 @@
     </header>
 
     <main>
+        <!-- Once start button is pressed, this button goes display:none -->
         <div><button id="startbtn">Start Quiz</button></div>
         <div id="timer"></div>
+        <!-- Quiz area - default to display:none, then appears once start button is pressed -->
         <div id="quiz">
             <div id="question">Hardcoded question</div>
             <ul>
@@ -40,6 +42,14 @@
                 <li><button type="button" id="#btn4" class="butt">fourth</button></li>
             </ul>
         </div>
+        <!-- Show score -->
+        <ul>
+            <li>Your Score:</li>
+            <li id="score"><p></p></li>
+            <label for="userName">Input your name!</label>
+            <textarea id="userName" name="userName"></textarea>
+        </ul>
+        
 
         <script src="./assets/js/script.js"></script>
         

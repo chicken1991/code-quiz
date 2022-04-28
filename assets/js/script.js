@@ -1,6 +1,9 @@
 var timerEl = document.querySelector("#timer");
 var startButton = document.querySelector("#startbtn");
 var quiz = document.querySelector("#quiz")
+var scoreEl = document.querySelector("#score")
+var userName = document.querySelector("#userName");
+
 
 var score;
 var timerCount = 4;
@@ -11,8 +14,7 @@ var allAnswered;
 
 //create init() - start timer will default to displayed
 function init(){
-    score = 100; 
-    isGameOver = false;
+    score = 0; 
     quiz.setAttribute("style", "display:none");
 }
 
@@ -20,8 +22,9 @@ function init(){
 //create startTimer to begin game - hide start timer
 function startGame() {
 
-    //set #startBtn as display:none
+    //make disappear startBtn
     startButton.setAttribute("style", "display:none;");
+    //make appear quiz
     quiz.setAttribute("style", "display:block");
     
     // Sets timer
@@ -56,16 +59,24 @@ startButton.addEventListener("click", startGame);
 //userPrompt() will ask the user to input their name, =================== TO DO
 //which will be attributed to their score
 
-//displayScore() will display the score of the user
+function currentQuestion(){
+}
 
 
 function gameOver(){
   //hide quiz
   quiz.setAttribute("style", "display:none");
   //display Quiz Over or something
-  storeScore();
-  userPrompt();
-  displayScore();
+  // storeScore();
+  localStorage.setItem("Score", score);
+  scoreEl.textContent = score;
+  // userPrompt();
+  localStorage.userName("User Name", userName);
+  // renderScores();
+}
+
+function renderScores(){
+  //display all user scores in some text box or smthng
 }
 
 // function currentQuestion(){
@@ -74,10 +85,11 @@ function gameOver(){
   //display each answer in the array
   //add eventlistener to all buttons
   // if (answer == correct)
+  //  increase score
   //  next question
   // else
   //  reduce time
-  //  reduce score
+  //  next question
 
   // return gameOver=True
 
