@@ -1,97 +1,93 @@
-// Score definitions THERE IS A BETTER WAY I'M SURE
-var score = 100; //Decrease for every wrong answer
-var question = document.querySelector("#question");
-var answer1 = document.getElementById("#btn1");
-var answer2 = document.getElementById("#btn2");
-var answer3 = document.getElementById("#btn3");
-var answer4 = document.getElementById("#btn4");
+var timerEl = document.querySelector("#timer");
+var startButton = document.querySelector("#startbtn");
+var quiz = document.querySelector("#quiz")
 
+var score;
+var timerCount = 4;
+var timer;
+var wrongAnswer;
+var rightAnswer;
+var allAnswered;
 
-
-// Where do I store the questions? Object and parse with JSON?
-
-// How do I want to do the buttons? Each object has a Right Answer and three set Wrong Answers,
-// and the buttons will be randomly displayed
-
-// if an answer is selected, set the attribute of that question as either True or False
-//      If false, score is decreased
-//      If true, score remains the same
-
-// At the end of the quiz, display all answers?
-//      If attribute is Wrong Answer, display selected answer in red
-//      If attribute is Right Answer, display selected answer in green
-
-// ================= Object definitions ==========================
-
-var qObj1 = {
-    theQuestion: "This is the first question. Choose wisely",
-    rightAnswer: "Choose me!",
-    wrongAnswer1: "wrong answer 1",
-    wrongAnswer2: "wrong answer 2",
-    wrongAnswer3: "wrong answer 3"
-}
-console.log(qObj1);
-
-var qObj2 = {
-    theQuestion: "This is the second question. Choose wisely",
-    rightAnswer: "whatever",
-    wrongAnswer1: "wrong answer 1",
-    wrongAnswer2: "wrong answer 2",
-    wrongAnswer3: "wrong answer 3"
-}
-
-var qObj3 = {
-    theQuestion: "This is the third question. Choose wisely",
-    rightAnswer: "whatever",
-    wrongAnswer1: "wrong answer 1",
-    wrongAnswer2: "wrong answer 2",
-    wrongAnswer3: "wrong answer 3"
-}
-
-var qObj4 = {
-    theQuestion: "This is the fourth question. Choose wisely",
-    rightAnswer: "whatever",
-    wrongAnswer1: "wrong answer 1",
-    wrongAnswer2: "wrong answer 2",
-    wrongAnswer3: "wrong answer 3"
-}
-
-// array for the objects
-var objArray = [qObj1, qObj2, qObj3, qObj4];
-var btnClicker = document.querySelectorAll(".butt");
-
-console.log(btnClicker);
-//hardcoded stuff for fun
-// question.textContent = objArray[1].theQuestion;
-// answer1.textContent = objArray[1].rightAnswer;
-
-// array for the arrays < wtf?
-
-// Create a function that displays the Current Question, which will in turn display Answer Options
-function currentQuestion() {
-
-    for (var i = 0; i < 1; i++){
-
-        // For question objArray[i] display the question and the answers
-        question.textContent = objArray[i].theQuestion;
-        answer1.textContent = objArray[i].rightAnswer;
-        answer2.textContent = objArray[i].wrongAnswer1;
-        answer3.textContent = objArray[i].wrongAnswer2;
-        answer4.textContent = objArray[i].wrongAnswer3;
-        // display each button thing for the li stuff and things
-        debugger;
-        //display objArray[i] until an answer is selected
-        btnClicker[i].addEventListener("click", function() {
-            if (objArray[i].rightAnswer){
-                console.log("Right");
-            } else {
-                console.log("WRONNNGGG");
-            }
-        });
-
-
-    }
+//create init() - start timer will default to displayed
+function init(){
+    score = 100; 
+    isGameOver = false;
+    quiz.setAttribute("style", "display:none");
 }
 
 
-currentQuestion();
+//create startTimer to begin game - hide start timer
+function startGame() {
+
+    //set #startBtn as display:none
+    startButton.setAttribute("style", "display:none;");
+    quiz.setAttribute("style", "display:block");
+    
+    // Sets timer
+    timer = setInterval(function() {
+        timerCount--;
+        timerEl.textContent = timerCount;
+        if (timerCount >= 0) {
+          // Tests if win condition is met
+          if (allAnswered && timerCount > 0) {
+            // Clears interval and stops timer
+            clearInterval(timer);
+            gameOver(); // wtf does this do?
+          }
+        }
+        // Tests if time has run out
+        if (timerCount === 0) {
+          // Clears interval
+          clearInterval(timer);
+          gameOver(); //what do? store score and assign to user input name
+        }
+        console.log(timerCount);
+      }, 1000);
+}
+
+init();
+
+startButton.addEventListener("click", startGame);
+
+//storeScore() stores the user's score in local storage ================= TO DO
+
+
+//userPrompt() will ask the user to input their name, =================== TO DO
+//which will be attributed to their score
+
+//displayScore() will display the score of the user
+
+
+function gameOver(){
+  //hide quiz
+  quiz.setAttribute("style", "display:none");
+  //display Quiz Over or something
+  storeScore();
+  userPrompt();
+  displayScore();
+}
+
+// function currentQuestion(){
+  //put the question text in #question
+  //randomize the order of answers in a new array?
+  //display each answer in the array
+  //add eventlistener to all buttons
+  // if (answer == correct)
+  //  next question
+  // else
+  //  reduce time
+  //  reduce score
+
+  // return gameOver=True
+
+// init();
+//   startButton();
+//     startTimer();
+//         currentQuestion();
+//             if right, move on
+//             else subract time and move on
+//         endTimer();
+//     receiveInput();
+// displayScore()
+// }
