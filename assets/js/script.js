@@ -3,10 +3,14 @@ var startButton = document.querySelector("#startbtn");
 var quiz = document.querySelector("#quiz")
 var scoreEl = document.querySelector("#score")
 var userName = document.querySelector("#userName");
-
+var question = document.querySelector("#question");
+var answer1 = document.getElementById("#btn1");
+var answer2 = document.getElementById("#btn2");
+var answer3 = document.getElementById("#btn3");
+var answer4 = document.getElementById("#btn4");
 
 var score;
-var timerCount = 4;
+var timerCount = 50;
 var timer;
 var wrongAnswer;
 var rightAnswer;
@@ -26,6 +30,7 @@ function startGame() {
     startButton.setAttribute("style", "display:none;");
     //make appear quiz
     quiz.setAttribute("style", "display:block");
+
     
     // Sets timer
     timer = setInterval(function() {
@@ -47,6 +52,8 @@ function startGame() {
         }
         console.log(timerCount);
       }, 1000);
+      currentQuestion();
+
 }
 
 init();
@@ -59,7 +66,69 @@ startButton.addEventListener("click", startGame);
 //userPrompt() will ask the user to input their name, =================== TO DO
 //which will be attributed to their score
 
+// ================= Object definitions ==========================
+
+var qObj1 = {
+  theQuestion: "This is the first question. Choose wisely",
+  rightAnswer: "Choose me!",
+  wrongAnswer1: "wrong answer 1",
+  wrongAnswer2: "wrong answer 2",
+  wrongAnswer3: "wrong answer 3"
+}
+console.log(qObj1);
+
+var qObj2 = {
+  theQuestion: "This is the second question. Choose wisely",
+  rightAnswer: "whatever",
+  wrongAnswer1: "wrong answer 1",
+  wrongAnswer2: "wrong answer 2",
+  wrongAnswer3: "wrong answer 3"
+}
+
+var qObj3 = {
+  theQuestion: "This is the third question. Choose wisely",
+  rightAnswer: "whatever",
+  wrongAnswer1: "wrong answer 1",
+  wrongAnswer2: "wrong answer 2",
+  wrongAnswer3: "wrong answer 3"
+}
+
+var qObj4 = {
+  theQuestion: "This is the fourth question. Choose wisely",
+  rightAnswer: "whatever",
+  wrongAnswer1: "wrong answer 1",
+  wrongAnswer2: "wrong answer 2",
+  wrongAnswer3: "wrong answer 3"
+}
+
+// array for the objects
+var objArray = [qObj1, qObj2, qObj3, qObj4];
+var btnClicker = document.querySelector(".butt");
+
 function currentQuestion(){
+  for (var i = 0; i < 1; i++){
+
+    // For question objArray[i] display the question and the answers
+    question.textContent = objArray[i].theQuestion;
+    answer1.textContent = objArray[i].rightAnswer;
+    answer2.textContent = objArray[i].wrongAnswer1;
+    answer3.textContent = objArray[i].wrongAnswer2;
+    answer4.textContent = objArray[i].wrongAnswer3;
+    // display each button thing for the li stuff and things
+    // debugger;
+    //display objArray[i] until an answer is selected
+    btnClicker.addEventListener("click", function() {
+        if (objArray[i].rightAnswer){
+            console.log("Right");
+            score = score + (100/objArray.length);
+        } else if (!objArray[i].rightAnswer){
+            console.log("WRONNNGGG");
+            timercount -= 10;
+        }
+    });
+
+
+}
 }
 
 
@@ -71,7 +140,7 @@ function gameOver(){
   localStorage.setItem("Score", score);
   scoreEl.textContent = score;
   // userPrompt();
-  localStorage.userName("User Name", userName);
+  // localStorage.userName("User Name", userName);
   // renderScores();
 }
 
