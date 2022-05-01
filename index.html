@@ -7,21 +7,9 @@
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
 </head>
 
-<!-- check this out
-    div.name+ul>li*4
--->
-
-<!-- <div class="name"></div>
-<ul>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-</ul> -->
-
-
-
 <body>
+
+    <!-- title of the page -->
     <header>
         <h1>
             Code Quizzz
@@ -32,18 +20,22 @@
         <!-- Once start button is pressed, this button goes display:none -->
         <div><button id="startbtn">Start Quiz</button></div>
         <div id="timer"></div>
+
         <!-- Quiz area - default to display:none, then appears once start button is pressed -->
         <div id="quiz">
             <div id="question">Hardcoded question</div>
             <ul id="answers">
             </ul>
         </div>
-        <!-- Show score -->
+
+        <!-- Show score once game is over-->
         <div id="gameOver">
             <ul>
                 <li>Your Score:</li>
                 <li id="score"><p></p></li>
             </ul>
+
+            <!-- user input field -->
             <form>
                 <input placeholder="name" id="name"/>
                 <button id="submit">Submit</button>
