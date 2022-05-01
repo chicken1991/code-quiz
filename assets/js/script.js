@@ -1,16 +1,19 @@
 var timerEl = document.querySelector("#timer");
 var startButton = document.querySelector("#startbtn");
-var quiz = document.querySelector("#quiz")
-var scoreEl = document.querySelector("#score")
+var quiz = document.querySelector("#quiz");
+var stats = document.querySelector("#gameOver");
+var scoreEl = document.querySelector("#score");
 var userName = document.querySelector("#userName");
-var question = document.querySelector("#question");
-var answer1 = document.getElementById("#btn1");
-var answer2 = document.getElementById("#btn2");
-var answer3 = document.getElementById("#btn3");
-var answer4 = document.getElementById("#btn4");
+var displayQuestion = document.querySelector("#question");
+var displayedAnswers = document.querySelector("#answers");
+// var answerLi = document.createElement("li");
+// var answerBtn = document.createElement("button");
 
-var score;
-var timerCount = 50;
+
+var qObj;
+
+var score = 0;
+var timerCount = 10;
 var timer;
 var wrongAnswer;
 var rightAnswer;
@@ -20,7 +23,10 @@ var allAnswered;
 function init(){
     score = 0; 
     quiz.setAttribute("style", "display:none");
+    stats.setAttribute("style", "display:none");
+    timerEl.setAttribute("style", "display:none");
 }
+init();
 
 
 //create startTimer to begin game - hide start timer
@@ -30,7 +36,8 @@ function startGame() {
     startButton.setAttribute("style", "display:none;");
     //make appear quiz
     quiz.setAttribute("style", "display:block");
-
+    //make timer disappear
+    timerEl.setAttribute("style", "display:block");
     
     // Sets timer
     timer = setInterval(function() {
@@ -45,20 +52,22 @@ function startGame() {
           }
         }
         // Tests if time has run out
-        if (timerCount === 0) {
+        if (timerCount === 0 || questionNumber <= 0) {
           // Clears interval
           clearInterval(timer);
           gameOver(); //what do? store score and assign to user input name
+
         }
         console.log(timerCount);
       }, 1000);
-      currentQuestion();
-
+      nextQuestion();
 }
 
-init();
+// init();
+
 
 startButton.addEventListener("click", startGame);
+
 
 //storeScore() stores the user's score in local storage ================= TO DO
 
@@ -68,71 +77,88 @@ startButton.addEventListener("click", startGame);
 
 // ================= Object definitions ==========================
 
-var qObj1 = {
-  theQuestion: "This is the first question. Choose wisely",
-  rightAnswer: "Choose me!",
-  wrongAnswer1: "wrong answer 1",
-  wrongAnswer2: "wrong answer 2",
-  wrongAnswer3: "wrong answer 3"
-}
-console.log(qObj1);
-
-var qObj2 = {
-  theQuestion: "This is the second question. Choose wisely",
-  rightAnswer: "whatever",
-  wrongAnswer1: "wrong answer 1",
-  wrongAnswer2: "wrong answer 2",
-  wrongAnswer3: "wrong answer 3"
+var obj1 = {
+  theQuestion: "This is question 1",
+  objAnswers: [
+    "answer 1",
+    "answer 2",
+    "answer 3"
+  ],
+  correct: "answer 1"
 }
 
-var qObj3 = {
-  theQuestion: "This is the third question. Choose wisely",
-  rightAnswer: "whatever",
-  wrongAnswer1: "wrong answer 1",
-  wrongAnswer2: "wrong answer 2",
-  wrongAnswer3: "wrong answer 3"
+var obj2 = {
+  theQuestion: "This is question 2",
+  objAnswers: [
+    "answer 1",
+    "answer 2",
+    "answer 3"
+  ],
+  correct: "answer 2"
 }
 
-var qObj4 = {
-  theQuestion: "This is the fourth question. Choose wisely",
-  rightAnswer: "whatever",
-  wrongAnswer1: "wrong answer 1",
-  wrongAnswer2: "wrong answer 2",
-  wrongAnswer3: "wrong answer 3"
+var obj3 = {
+  theQuestion: "This is question 3",
+  objAnswers: [
+    "answer 1",
+    "answer 2",
+    "answer 3"
+  ],
+  correct: "answer 3"
 }
 
-// array for the objects
-var objArray = [qObj1, qObj2, qObj3, qObj4];
-var btnClicker = document.querySelector(".butt");
+var objArray = [obj1, obj2, obj3]
+var objIndex = 0
+var questionNumber = objArray.length;
 
-function currentQuestion(){
-  for (var i = 0; i < 1; i++){
+function nextQuestion(){
+    qObj = objArray[objIndex].theQuestion;
+    //display the question
+    displayQuestion.textContent = qObj;   
 
-    // For question objArray[i] display the question and the answers
-    question.textContent = objArray[i].theQuestion;
-    answer1.textContent = objArray[i].rightAnswer;
-    answer2.textContent = objArray[i].wrongAnswer1;
-    answer3.textContent = objArray[i].wrongAnswer2;
-    answer4.textContent = objArray[i].wrongAnswer3;
-    // display each button thing for the li stuff and things
-    // debugger;
-    //display objArray[i] until an answer is selected
-    btnClicker.addEventListener("click", function() {
-        if (objArray[i].rightAnswer){
-            console.log("Right");
-            score = score + (100/objArray.length);
-        } else if (!objArray[i].rightAnswer){
-            console.log("WRONNNGGG");
-            timercount -= 10;
-        }
-    });
-
-
-}
+    //Create answer buttons from each possible answer in the obj 
+        function renderAnswers() {
+          //if any answers are available at this time, remove them
+          for(var x = 0; x < objArray[objIndex].objAnswers.length; x++){
+            var answerLi = document.createElement("li");
+            var answerBtn = document.createElement("button");
+            displayedAnswers.appendChild(answerLi);
+            answerLi.appendChild(answerBtn);
+            answerBtn.textContent = objArray[objIndex].objAnswers[x];
+            answerBtn.addEventListener("click", checkAnswers);          }
+        }   
+    renderAnswers();
+    console.log(objIndex);
 }
 
+// function renderAnswers() {
+//   displayQuestion.appendChild(answerBtn);
+//   answerBtn.textContent = 
+// }
+
+//checks if answer is correct or not. Either way, modify score, clear buttons, then load new question
+function checkAnswers(event){
+  console.log(event.target.innerText);
+  if (event.target.innerText === objArray[objIndex].correct){
+    console.log("correct!");
+    score += 10;
+    objIndex++;
+   } else {
+     console.log("WRONG");
+     score -= 10;
+     objIndex++;
+   }
+   displayedAnswers.textContent = "";
+   questionNumber--;
+   if(questionNumber > 0){
+     nextQuestion()
+   } else {
+     gameOver()
+   }
+}
 
 function gameOver(){
+  stats.setAttribute("style", "display:block");
   //hide quiz
   quiz.setAttribute("style", "display:none");
   //display Quiz Over or something
@@ -147,28 +173,3 @@ function gameOver(){
 function renderScores(){
   //display all user scores in some text box or smthng
 }
-
-// function currentQuestion(){
-  //put the question text in #question
-  //randomize the order of answers in a new array?
-  //display each answer in the array
-  //add eventlistener to all buttons
-  // if (answer == correct)
-  //  increase score
-  //  next question
-  // else
-  //  reduce time
-  //  next question
-
-  // return gameOver=True
-
-// init();
-//   startButton();
-//     startTimer();
-//         currentQuestion();
-//             if right, move on
-//             else subract time and move on
-//         endTimer();
-//     receiveInput();
-// displayScore()
-// }

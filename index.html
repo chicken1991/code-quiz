@@ -35,22 +35,21 @@
         <!-- Quiz area - default to display:none, then appears once start button is pressed -->
         <div id="quiz">
             <div id="question">Hardcoded question</div>
-            <ul>
-                <li><button type="button" id="#btn1" class="butt">first</button></li>
-                <li><button type="button" id="#btn2" class="butt">second</button></li>
-                <li><button type="button" id="#btn3" class="butt">third</button></li>
-                <li><button type="button" id="#btn4" class="butt">fourth</button></li>
+            <ul id="answers">
             </ul>
         </div>
         <!-- Show score -->
-        <ul>
-            <li>Your Score:</li>
-            <li id="score"><p></p></li>
-            <label for="userName">Input your name!</label>
-            <textarea id="userName" name="userName"></textarea>
-        </ul>
+        <div id="gameOver">
+            <ul>
+                <li>Your Score:</li>
+                <li id="score"><p></p></li>
+            </ul>
+            <form>
+                <input placeholder="name" id="name" />
+                <button id="submit">Submit</button>
+            </form>
+        </div>
         
-
         <script src="./assets/js/script.js"></script>
         
     </main>

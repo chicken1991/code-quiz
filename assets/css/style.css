@@ -1,0 +1,23 @@
+
+header {
+    display:flex;
+    justify-content: center;
+    background-color:beige;
+}
+
+main {
+    display:flex;
+    justify-content: center;
+    background-color:beige;
+}
+
+#timer {
+    position:fixed;
+    top:1em;
+    right:1em;
+    font-size: 36px;
+}
+
+button {
+    background-color:aqua;
+}
