@@ -1,3 +1,4 @@
+//Global definitions
 var timerEl = document.querySelector("#timer");
 var startButton = document.querySelector("#startbtn");
 var quiz = document.querySelector("#quiz");
@@ -6,28 +7,23 @@ var scoreEl = document.querySelector("#score");
 var userName = document.querySelector("#userName");
 var displayQuestion = document.querySelector("#question");
 var displayedAnswers = document.querySelector("#answers");
-// var answerLi = document.createElement("li");
-// var answerBtn = document.createElement("button");
-
-
-var qObj;
-
 var score = 0;
-var timerCount = 10;
+var timerCount = 60;
 var timer;
 var wrongAnswer;
 var rightAnswer;
 var allAnswered;
+var qObj;
+
+init();
 
 //create init() - start timer will default to displayed
 function init(){
-    score = 0; 
-    quiz.setAttribute("style", "display:none");
-    stats.setAttribute("style", "display:none");
-    timerEl.setAttribute("style", "display:none");
+  score = 0; 
+  quiz.setAttribute("style", "display:none");
+  stats.setAttribute("style", "display:none");
+  timerEl.setAttribute("style", "display:none");
 }
-init();
-
 
 //create startTimer to begin game - hide start timer
 function startGame() {
@@ -51,7 +47,7 @@ function startGame() {
             gameOver(); // wtf does this do?
           }
         }
-        // Tests if time has run out
+        // Tests if time has run out or if all questions are answered
         if (timerCount === 0 || questionNumber <= 0) {
           // Clears interval
           clearInterval(timer);
@@ -78,33 +74,36 @@ startButton.addEventListener("click", startGame);
 // ================= Object definitions ==========================
 
 var obj1 = {
-  theQuestion: "This is question 1",
+  theQuestion: "Which index number is at the beginning of an array?",
   objAnswers: [
-    "answer 1",
-    "answer 2",
-    "answer 3"
+    "1",
+    "2",
+    "100",
+    "0"
   ],
-  correct: "answer 1"
+  correct: "0"
 }
 
 var obj2 = {
-  theQuestion: "This is question 2",
+  theQuestion: "Which method select the first found element of id 'test'?",
   objAnswers: [
-    "answer 1",
-    "answer 2",
-    "answer 3"
+    "querySelectorAll('#test')",
+    "getElement('.test')",
+    "querySelector('#test')",
+    "test.selectAll()"
   ],
-  correct: "answer 2"
+  correct: "querySelector('#test')"
 }
 
 var obj3 = {
-  theQuestion: "This is question 3",
+  theQuestion: "Which of these commands returns stored data from local storage?",
   objAnswers: [
-    "answer 1",
-    "answer 2",
-    "answer 3"
+    "localStorage.setItem()",
+    "storageRetrieve()",
+    "localStorage.getItem()",
+    "localStorage.itemGet()"
   ],
-  correct: "answer 3"
+  correct: "localStorage.getItem()"
 }
 
 var objArray = [obj1, obj2, obj3]
@@ -146,6 +145,7 @@ function checkAnswers(event){
    } else {
      console.log("WRONG");
      score -= 10;
+     timerCount -= 10;
      objIndex++;
    }
    displayedAnswers.textContent = "";
@@ -157,19 +157,21 @@ function checkAnswers(event){
    }
 }
 
+//Post-game stats and local storage
 function gameOver(){
   stats.setAttribute("style", "display:block");
   //hide quiz
   quiz.setAttribute("style", "display:none");
-  //display Quiz Over or something
-  // storeScore();
   localStorage.setItem("Score", score);
   scoreEl.textContent = score;
-  // userPrompt();
-  // localStorage.userName("User Name", userName);
-  // renderScores();
 }
+
+//I need to create a form for the user input
+function setScore(){
+  localStorage.setItem(userName.innerText, score);
+  }
 
 function renderScores(){
   //display all user scores in some text box or smthng
+
 }
