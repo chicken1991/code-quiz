@@ -20,6 +20,7 @@ main {
 
 button {
     background-color:aqua;
+    min-width: 15em;
 }
 
 li {
